@@ -9,9 +9,14 @@ function App() {
 
   // filtro de personajes
   const [filterName, setFilterName] = useState("");
+  const [filterHouse, setFilterHouse] = useState("Gryffindor");
 
   const handleFilterName = (ev) => {
     setFilterName(ev.target.value);
+  }
+ 
+  const handleFilterHouse = (ev) => {
+    setFilterHouse(ev.target.value);
   }
 
 
@@ -35,10 +40,13 @@ function App() {
   }, []);
   
   // variables para pintar en la pagina
-
   const filteredCharacters = allCharacters.filter((eachCharacter) =>
-    eachCharacter.name.toLowerCase().includes(filterName.toLowerCase())
+    eachCharacter.name.toLowerCase().includes(filterName.toLowerCase()) &&
+    (filterHouse === "" || eachCharacter.house === filterHouse)
   );
+
+  const allHouses = [...new Set(allCharacters.map((eachCharacter) => eachCharacter.house).filter( house => house))];
+
 
   return (
     <div>
@@ -58,6 +66,15 @@ function App() {
               onChange={handleFilterName}
             />
           </label>
+          <label className="form-label" htmlFor="search-house">Selecciona la casa</label>
+          <select className="form-select" name="search-house" id="search-house" value={filterHouse} onChange={handleFilterHouse}>
+            <option value="">Todos</option>
+            {allHouses.map((eachHouse) => (
+              <option key={eachHouse} value={eachHouse}>
+                {eachHouse}
+              </option>
+            ))}
+          </select>
         </form>
         <form className="cards">
           {filteredCharacters.map((eachCharacter) => (

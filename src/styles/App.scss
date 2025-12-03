@@ -55,7 +55,18 @@ body {
 .filters {
   margin-bottom: 1rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* apila input y select verticalmente */
+  align-items: center;
+  gap: 0.6rem;
+}
+.form-label {
+  width: 100%;
+  max-width: 420px;
+  font-size: 0.95rem;
+  color: $muted;
+  margin: 0;
+  padding: 0 0; /* sin padding extra, el control se alinea con el input */
+  align-self: center;
 }
 .filters__label {
   width: 100%;
@@ -63,9 +74,11 @@ body {
   font-size: 0.95rem;
   color: $muted;
 }
-.filters__input {
+.filters__input,
+.form-select {
   display: block;
   width: 100%;
+  max-width: 420px;
   margin-top: 0.5rem;
   padding: 0.6rem 0.75rem;
   border: 1px solid rgba(34,34,34,0.12);
@@ -74,6 +87,9 @@ body {
   background: rgba(214,179,47,0.12); /* ligera capa mostaza */
   outline: none;
   color: $text;
+  -webkit-appearance: none; /* para quitar estilo por defecto en iOS/Chrome */
+  -moz-appearance: none;
+  appearance: none;
 }
 .filters__input::placeholder {
   color: rgba($muted, 0.7);
