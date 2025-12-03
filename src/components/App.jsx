@@ -1,5 +1,10 @@
 import "../styles/App.scss";
 import { useState, useEffect } from "react";  
+import Header from "./Layout/Header";
+import Filters from "./Filters";
+import CharacterList from "./CharacterList";
+import CharacterDetail from "./CharacterDetail";
+
 
 
 
@@ -10,6 +15,7 @@ function App() {
   // filtro de personajes
   const [filterName, setFilterName] = useState("");
   const [filterHouse, setFilterHouse] = useState("Gryffindor");
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   const handleFilterName = (ev) => {
     setFilterName(ev.target.value);
@@ -45,53 +51,26 @@ function App() {
     (filterHouse === "" || eachCharacter.house === filterHouse)
   );
 
+  //casas sin repeticion
   const allHouses = [...new Set(allCharacters.map((eachCharacter) => eachCharacter.house).filter( house => house))];
 
 
   return (
     <div>
-      <header className="header">
-        <h1 className="title">Harry Potter</h1>
-      </header>
+      <Header />
       <main className="main">
-        <form className="filters">
-          <label className="filters__label" htmlFor="name">
-            Busca por personajes:
-            <input
-              className="filters__input"
-              type="text"
-              name="name"
-              id="name"
-              value={filterName}
-              onChange={handleFilterName}
-            />
-          </label>
-          <label className="form-label" htmlFor="search-house">Selecciona la casa</label>
-          <select className="form-select" name="search-house" id="search-house" value={filterHouse} onChange={handleFilterHouse}>
-            <option value="">Todos</option>
-            {allHouses.map((eachHouse) => (
-              <option key={eachHouse} value={eachHouse}>
-                {eachHouse}
-              </option>
-            ))}
-          </select>
-        </form>
-        <form className="cards">
-          {filteredCharacters.map((eachCharacter) => (
-            <article key={eachCharacter.id} className="card">
-              <img
-                className="card__image"
-                src={eachCharacter.image}
-                alt={eachCharacter.name}
-              />
-              <h2 className="card__name">{eachCharacter.name}</h2>
-              <p className="card__info">Especie: {eachCharacter.species}</p>
-              <p className="card__info">Género: {eachCharacter.gender}</p>
-              <p className="card__info">Casa: {eachCharacter.house}</p>
-              <p className="card__info">Actor: {eachCharacter.actor}</p>
-            </article>
-          ))}
-        </form>
+       <Filters
+        filterName={filterName}
+        handleFilterName={handleFilterName}
+        filterHouse={filterHouse}
+        handleFilterHouse={handleFilterHouse}
+        allHouses={allHouses}
+       />
+         <CharacterList 
+          filteredCharacters={filteredCharacters}
+          onSelectCharacter={setSelectedCharacter} />
+         <CharacterDetail 
+          selectedCharacter={selectedCharacter} />
       </main>
     </div>
   );
