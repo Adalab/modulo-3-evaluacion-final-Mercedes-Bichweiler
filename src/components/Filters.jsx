@@ -6,10 +6,13 @@ function Filters({
   allHouses, 
   filteredCharactersLength,
   onReset, 
+  filterGender,
+  handleFilterGender,
+  allGenders,
 }) { 
   const noResults = 
     filteredCharactersLength === 0 && 
-    (filterName.trim() !== "" || filterHouse !== "");
+    (filterName.trim() !== "" || filterHouse !== "" || filterGender !== "");
   
   return (
      <form className="filters">
@@ -24,6 +27,22 @@ function Filters({
               onChange={handleFilterName}
           />
         </label>
+        <label className="form-label" htmlFor="search-gender">
+          Filtrar por género:</label>
+          <select className="form-select" name="search-gender" id="search-gender" value={filterGender} onChange={handleFilterGender}>
+            <option value="">Todos</option>
+            {allGenders.map((eachGender) => (
+              <option key={eachGender} value={eachGender}>
+                {eachGender}
+              </option>
+            ))}
+          </select>
+          {noResults && (
+            <div className="no-results" role="status">
+              <p>No se encontraron resultados</p>
+              <button type="button" className="no-results__btn" onClick={onReset}>Volver al listado</button>
+            </div>
+          )}
 
         <label className="form-label" htmlFor="search-house">
           Selecciona la casa</label>

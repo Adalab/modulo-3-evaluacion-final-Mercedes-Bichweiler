@@ -17,6 +17,7 @@ function App() {
   // filtro de personajes
   const [filterName, setFilterName] = useState("");
   const [filterHouse, setFilterHouse] = useState("Gryffindor");
+  const [filterGender, setFilterGender] = useState("");
 
   
 
@@ -27,6 +28,10 @@ function App() {
  
   const handleFilterHouse = (ev) => {
     setFilterHouse(ev.target.value);
+  }
+
+  const handleFilterGender = (ev) => {
+    setFilterGender(ev.target.value);
   }
 
 
@@ -53,11 +58,15 @@ function App() {
   // variables para pintar en la pagina
   const filteredCharacters = allCharacters.filter((eachCharacter) =>
     eachCharacter.name.toLowerCase().includes(filterName.toLowerCase()) &&
-    (filterHouse === "" || eachCharacter.house === filterHouse)
+    (filterHouse === "" || eachCharacter.house === filterHouse) &&
+    (filterGender === "" || eachCharacter.gender === filterGender)
   );
 
   //casas sin repeticion
   const allHouses = [...new Set(allCharacters.map((eachCharacter) => eachCharacter.house).filter( house => house))];
+
+  // géneros sin repetición
+const allGenders = [...new Set(allCharacters.map(character => character.gender).filter(Boolean))];
 
 
   return (
@@ -76,8 +85,10 @@ function App() {
                   handleFilterHouse={handleFilterHouse}
                   allHouses={allHouses}
                   filteredCharactersLength={filteredCharacters.length}
-                  onReset={() => { setFilterName(""); setFilterHouse(""); }}
-
+                  onReset={() => { setFilterName(""); setFilterHouse(""); setFilterGender(""); }}
+                  filterGender={filterGender}
+                  handleFilterGender={handleFilterGender}
+                  allGenders={allGenders}
                 />
                 <CharacterList
                   filteredCharacters={filteredCharacters}
