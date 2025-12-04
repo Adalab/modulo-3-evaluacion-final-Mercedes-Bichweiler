@@ -5,6 +5,7 @@ import Filters from "./Filters";
 import CharacterList from "./CharacterList";
 import CharacterDetail from "./CharacterDetail";
 import { Routes, Route } from "react-router";
+import "../styles/CharacterDetail.scss";
 
 
 
@@ -16,7 +17,8 @@ function App() {
   // filtro de personajes
   const [filterName, setFilterName] = useState("");
   const [filterHouse, setFilterHouse] = useState("Gryffindor");
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+  
 
   // eventos de los filtros
   const handleFilterName = (ev) => {
@@ -26,6 +28,7 @@ function App() {
   const handleFilterHouse = (ev) => {
     setFilterHouse(ev.target.value);
   }
+
 
 
   // llamada a la API 
@@ -74,6 +77,7 @@ function App() {
                   allHouses={allHouses}
                   filteredCharactersLength={filteredCharacters.length}
                   onReset={() => { setFilterName(""); setFilterHouse(""); }}
+
                 />
                 <CharacterList
                   filteredCharacters={filteredCharacters}
