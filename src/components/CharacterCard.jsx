@@ -1,7 +1,15 @@
+import { useNavigate } from "react-router";
+
+
 function CharacterCard({ character, onSelectCharacter }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    onSelectCharacter(character);
+    navigate(`/character/${character.id}`);
+  }
   return (
-    <article 
-    className="card" onClick={() => onSelectCharacter(character)}>
+   <article className="card" onClick={handleClick} role="button" tabIndex={0}>
       <img
         className="card__image"
         src={character.image}

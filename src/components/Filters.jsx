@@ -1,4 +1,6 @@
-function Filters({ filterName, handleFilterName, filterHouse, handleFilterHouse, allHouses }) {  
+function Filters({ filterName, handleFilterName, filterHouse, handleFilterHouse, allHouses, filteredCharactersLength, onReset }) { 
+  const noResults = filteredCharactersLength === 0 && (filterName.trim() !== "" || filterHouse !== "");
+  
   return (
      <form className="filters">
           <label className="filters__label" htmlFor="name">
@@ -21,8 +23,14 @@ function Filters({ filterName, handleFilterName, filterHouse, handleFilterHouse,
               </option>
             ))}
           </select>
+          {noResults && (
+            <div className="no-results" role="status">
+              <p>No se encontraron resultados</p>
+              <button type="button" className="no-results__btn" onClick={onReset}>Volver al listado</button>
+            </div>
+          )}
         </form>
   );
 }
 
-export default Filters;
+export default Filters; 

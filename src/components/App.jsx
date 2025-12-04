@@ -4,6 +4,7 @@ import Header from "./Layout/Header";
 import Filters from "./Filters";
 import CharacterList from "./CharacterList";
 import CharacterDetail from "./CharacterDetail";
+import { Routes, Route } from "react-router";
 
 
 
@@ -17,6 +18,7 @@ function App() {
   const [filterHouse, setFilterHouse] = useState("Gryffindor");
   const [selectedCharacter, setSelectedCharacter] = useState(null);
 
+  // eventos de los filtros
   const handleFilterName = (ev) => {
     setFilterName(ev.target.value);
   }
@@ -59,18 +61,31 @@ function App() {
     <div>
       <Header />
       <main className="main">
-       <Filters
-        filterName={filterName}
-        handleFilterName={handleFilterName}
-        filterHouse={filterHouse}
-        handleFilterHouse={handleFilterHouse}
-        allHouses={allHouses}
-       />
-         <CharacterList 
-          filteredCharacters={filteredCharacters}
-          onSelectCharacter={setSelectedCharacter} />
-         <CharacterDetail 
-          selectedCharacter={selectedCharacter} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Filters
+                  filterName={filterName}
+                  handleFilterName={handleFilterName}
+                  filterHouse={filterHouse}
+                  handleFilterHouse={handleFilterHouse}
+                  allHouses={allHouses}
+                  filteredCharactersLength={filteredCharacters.length}
+                  onReset={() => { setFilterName(""); setFilterHouse(""); }}
+                />
+                <CharacterList
+                  filteredCharacters={filteredCharacters}
+                  onSelectCharacter={() => {}}
+                />
+              </>
+            }
+          />
+          <Route 
+            path="/character/:characterId" 
+            element={<CharacterDetail allCharacters={allCharacters} />} />
+        </Routes>
       </main>
     </div>
   );
